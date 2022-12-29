@@ -32,21 +32,36 @@ const Register = (props) => {
     <>
       <div className="register-page">
         <div className="register-container">
-          <h3>Register below to start chatting!</h3>
-          <p>
-            Have an account already? <Link to="/">Login page</Link>
-          </p>
+          <h3>Register</h3>
           <div className="register-form">
             <form onSubmit={handleSubmit}>
-              <label htmlFor="username">Username:</label>
-              <input type="text" name="username" required value={user.username} onChange={handleChange} />
+              <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                required
+                value={user.username}
+                onChange={handleChange}
+              />
+              <box-icon name="user" color="white"></box-icon>
               <br />
               <br />
-              <label htmlFor="password">Password:</label>
-              <input type="password" name="password" required value={user.password} onChange={handleChange} />
+
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                required
+                value={user.password}
+                onChange={handleChange}
+              />
+              <box-icon name="lock-alt" color="white"></box-icon>
               <br />
-              <input type="submit" />
+              <input type="submit" className="submit" />
             </form>
+            <span>
+              Have an account already? <Link to="/">Login page</Link>
+            </span>
           </div>
         </div>
       </div>

@@ -22,21 +22,36 @@ const Login = (props) => {
     <>
       <div className="login-page">
         <div className="login-container">
-          <h3>Sign in below to start chatting!</h3>
-          <p>
-            Don't have an account? <Link to="api/register">Register page</Link>
-          </p>
+          <h3>Login</h3>
           <div className="login-form">
             <form onSubmit={handleSubmit}>
-              <label htmlFor="username">Username:</label>
-              <input type="text" name="username" required value={user.username} onChange={handleChange} />
+              <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                required
+                value={user.username}
+                onChange={handleChange}
+              />
+              <box-icon name="user" color="white"></box-icon>
               <br />
               <br />
-              <label htmlFor="password">Password:</label>
-              <input type="password" name="password" required value={user.password} onChange={handleChange} />
+
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                required
+                value={user.password}
+                onChange={handleChange}
+              />
+              <box-icon name="lock-alt" color="white"></box-icon>
               <br />
-              <input type="submit" />
+              <input type="submit" className="submit" />
             </form>
+            <span>
+              Don't have an account? <Link to="api/register">Sign up!</Link>
+            </span>
           </div>
         </div>
       </div>
