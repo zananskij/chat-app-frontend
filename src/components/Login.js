@@ -3,59 +3,62 @@ import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
 
 const Login = (props) => {
-  const [user, setUser] = useState({ username: '', password: '' })
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState(null)
 
-  const navigate = useNavigate()
-
-  const handleChange = (event) => {
-    setUser({ ...user, [event.target.name]: event.target.value })
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value)
   }
 
-  const handleSubmit = (event) => {
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value)
+  }
+
+  const handleLogin = async (event) => {
     event.preventDefault()
-    props.handleLogin(user)
-    // route to the homepage
-    // navigate('/homepage')
+    try {
+      const response = await axios.post('http://localhost:8000/api/login', {
+        username: username,
+        password: password,
+      })
+      if (response.data.hasOwnProperty('id')) {
+        console.log(`Welcome, ${response.data.username}!`)
+      } else {
+        setError(response.data)
+      }
+    } catch (error) {
+      setError(error.message)
+    }
   }
 
   return (
-    <>
-      <div className="login-page">
-        <div className="login-container">
-          <h3>Login</h3>
-          <div className="login-form">
-            <form onSubmit={handleSubmit}>
-              <input
-                type="text"
-                name="username"
-                placeholder="Username"
-                required
-                value={user.username}
-                onChange={handleChange}
-              />
-              <box-icon name="user" color="white"></box-icon>
-              <br />
-              <br />
+    <div className="login-page">
+      <div className="login-container">
+        <h3>Login</h3>
+        <div className="login-form">
+          <form onSubmit={handleLogin}>
+            <input type="text" value={username} placeholder="Username" required onChange={handleUsernameChange} />
+            <box-icon name="user" color="white"></box-icon>
+            <br />
+            <br />
+            <input type="password" value={password} placeholder="Password" required onChange={handlePasswordChange} />
+            <box-icon name="lock-alt" color="white"></box-icon>
+            <br />
+            <div className="options-container">
+              <button type="submit" className="login-btn">
+                Login
+              </button>
+              <span>
+                Don't have an account? <Link to="api/register">Sign up!</Link>
+              </span>
+            </div>
 
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                required
-                value={user.password}
-                onChange={handleChange}
-              />
-              <box-icon name="lock-alt" color="white"></box-icon>
-              <br />
-              <input type="submit" className="submit" />
-            </form>
-            <span>
-              Don't have an account? <Link to="api/register">Sign up!</Link>
-            </span>
-          </div>
+            {error && <p>{error}</p>}
+          </form>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
