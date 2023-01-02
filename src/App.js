@@ -29,11 +29,13 @@ const App = () => {
     axios.post('http://localhost:8000/api/login', data).then((response) => setUser(response.data))
   }
 
+  // id is hardcoded
   // function to get all objects from buddy table
   const getAllBuddies = () => {
     axios.post('http://localhost:8000/api/allbuddies', {id: 1}).then(response => setAllBuddies(response.data))
 }
   
+  // user1 is hardcoded
   // adds a user to Buddy table
   const handleAddFriend = (id) => {
     axios.post('http://localhost:8000/api/addBuddy', {user1: 1, user2: id}).then((response) => getAllBuddies())
