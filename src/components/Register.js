@@ -3,30 +3,26 @@ import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
 
 const Register = (props) => {
-  const [user, setUser] = useState({ username: '', password: '' })
-
-  let navigate = useNavigate()
+  const [user, setUser] = useState({ id: null, username: '', password: '' })
+  const [error, setError] = useState(null)
 
   const handleChange = (event) => {
     setUser({ ...user, [event.target.name]: event.target.value })
   }
 
-  const handleSubmit = (event) => {
+  const handleRegister = async (event) => {
     event.preventDefault()
-    props.handleLogin(user)
-    // route to
-    // navigate('/login')
+    try {
+      const response = await axios.post('http://localhost:8000/api/register', user)
+      if (response.data.hasOwnProperty('id')) {
+        console.log(`Welcome, ${response.data.username}!`)
+      } else {
+        setError(response.data)
+      }
+    } catch (error) {
+      setError(error.message)
+    }
   }
-
-  // async function handleSubmit(event) {
-  //   event.preventDefault()
-  //   await submitForm(event.target)
-  //   navigate('api/login')
-  // }
-  // return
-  //   <form onSubmit={handleSubmit}>
-
-  //   // </form>
 
   return (
     <>
@@ -34,34 +30,39 @@ const Register = (props) => {
         <div className="register-container">
           <h3>Register</h3>
           <div className="register-form">
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleRegister}>
               <input
                 type="text"
                 name="username"
+                value={user.username}
                 placeholder="Username"
                 required
-                value={user.username}
                 onChange={handleChange}
               />
               <box-icon name="user" color="white"></box-icon>
               <br />
               <br />
-
               <input
                 type="password"
                 name="password"
+                value={user.password}
                 placeholder="Password"
                 required
-                value={user.password}
                 onChange={handleChange}
               />
               <box-icon name="lock-alt" color="white"></box-icon>
               <br />
-              <input type="submit" className="submit" />
+              <div className="options-container">
+                <button type="submit" className="register-btn">
+                  Register
+                </button>
+                <span>
+                  Have an account already? <Link to="/">Login page</Link>
+                </span>
+              </div>
+
+              {error && <p>{error}</p>}
             </form>
-            <span>
-              Have an account already? <Link to="/">Login page</Link>
-            </span>
           </div>
         </div>
       </div>

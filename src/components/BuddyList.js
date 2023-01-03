@@ -23,3 +23,4 @@ const Buddy = (props) => {
 }
 
 export default Buddy
+
