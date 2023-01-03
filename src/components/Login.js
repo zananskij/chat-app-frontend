@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import { Link, useNavigate } from 'react-router-dom'
+import { Route, Routes, Link, useNavigate } from 'react-router-dom'
 
 const Login = (props) => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+
+  const [user, setUser] = useState({ id: null, username: '', password: '' })
+
   const [error, setError] = useState(null)
 
   const handleUsernameChange = (event) => {
@@ -18,12 +19,12 @@ const Login = (props) => {
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
-      const response = await axios.post('http://localhost:8000/api/login', {
-        username: username,
-        password: password,
-      })
+
+      const response = await axios.post('http://localhost:8000/api/login', user)
       if (response.data.hasOwnProperty('id')) {
         console.log(`Welcome, ${response.data.username}!`)
+        navigate('/allUsers')
+
       } else {
         setError(response.data)
       }
@@ -38,11 +39,27 @@ const Login = (props) => {
         <h3>Login</h3>
         <div className="login-form">
           <form onSubmit={handleLogin}>
-            <input type="text" value={username} placeholder="Username" required onChange={handleUsernameChange} />
+
+            <input
+              type="text"
+              name="username"
+              value={user.username}
+              placeholder="Username"
+              required
+              onChange={handleChange}
+            />
             <box-icon name="user" color="white"></box-icon>
             <br />
             <br />
-            <input type="password" value={password} placeholder="Password" required onChange={handlePasswordChange} />
+            <input
+              type="password"
+              name="password"
+              value={user.password}
+              placeholder="Password"
+              required
+              onChange={handleChange}
+            />
+
             <box-icon name="lock-alt" color="white"></box-icon>
             <br />
             <div className="options-container">
@@ -54,8 +71,8 @@ const Login = (props) => {
               </span>
             </div>
 
-            {error && <p>{error}</p>}
           </form>
+          {error && <p>{error}</p>}
         </div>
       </div>
     </div>
