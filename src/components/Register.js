@@ -6,6 +6,8 @@ const Register = (props) => {
   const [user, setUser] = useState({ id: null, username: '', password: '' })
   const [error, setError] = useState(null)
 
+  const navigate = useNavigate()
+
   const handleChange = (event) => {
     setUser({ ...user, [event.target.name]: event.target.value })
   }
@@ -16,6 +18,7 @@ const Register = (props) => {
       const response = await axios.post('http://localhost:8000/api/register', user)
       if (response.data.hasOwnProperty('id')) {
         console.log(`Welcome, ${response.data.username}!`)
+        navigate('/')
       } else {
         setError(response.data)
       }
