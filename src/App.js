@@ -12,7 +12,6 @@ const App = () => {
   const [user, setUser] = useState({ id: null, username: '', password: '' })
   const [error, setError] = useState(null)
   const [allBuddies, setAllBuddies] = useState([])
-  const [targetUser, setTargetUser] = useState({})
 
   const [isSearching, setIsSearching] = useState(false)
   const [filteredUser, setFilteredUser] = useState([])
@@ -58,10 +57,6 @@ const App = () => {
   // delete a single user from Buddy Table.
   const handleDelete = (i) => {
     axios.post('http://localhost:8000/api/delete', { id: i }).then((res) => getAllBuddies())
-  }
-
-  const changeTargetUser = (id) => {
-    setTargetUser({ id: id })
   }
 
   useEffect(
@@ -121,11 +116,13 @@ const App = () => {
               getAllBuddies={getAllBuddies}
               allBuddies={allBuddies}
               handleDelete={handleDelete}
-              changeTargetUser={changeTargetUser}
             />
           }
         />
-        <Route path="api/chat" element={<Chat targetUser={targetUser} changeTargetUser={changeTargetUser} />} />
+        <Route
+          path="api/chat/:id"
+          element={<Chat allBuddies={allBuddies} handleDelete={handleDelete} getAllBuddies={getAllBuddies} />}
+        />
       </Routes>
     </>
   )
