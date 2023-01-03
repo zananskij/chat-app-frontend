@@ -120,11 +120,12 @@ const App = () => {
           }
         />
 
-        <Route path='api/chat/:id' element={
+        <Route path='api/chat/:targetid' element={
           <Chat 
             allBuddies={allBuddies}
             handleDelete={handleDelete}
             getAllBuddies={getAllBuddies}
+            user={user}
             />
           } 
         />
