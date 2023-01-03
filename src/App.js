@@ -109,7 +109,7 @@ const App = () => {
         {/* <Route path="/" element={<Login handleLogin={handleLogin} />} /> */}
         <Route path="api/register" element={<Register handleRegister={handleRegister} />} />
         <Route
-          path="/allUsers"
+          path="api/main"
           element={
             <MainPage
               handleAddFriend={handleAddFriend}
