@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Route, Routes, Link, useNavigate } from 'react-router-dom'
 import Login from './components/Login'
 import Register from './components/Register'
+
 import Search from './components/Search'
 import MainPage from './components/MainPage'
 import BuddyList from './components/BuddyList'
@@ -17,9 +18,11 @@ const App = () => {
   const [isSearching, setIsSearching] = useState(false)
   const [filteredUser, setFilteredUser] = useState([])
 
+
   const handleRegister = async (event) => {
     event.preventDefault()
     try {
+
       const response = await axios.post('http://localhost:8000/api/register', user)
       if (response.data.hasOwnProperty('id')) {
         console.log(`Welcome, ${response.data.username}!`)
@@ -90,6 +93,7 @@ const App = () => {
   )
   // const userToDisplay = isSearching ? filteredUser : user
 
+
   return (
     <>
       <div>
@@ -113,6 +117,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Login handleLogin={handleLogin} />} />
         <Route path="api/register" element={<Register handleRegister={handleRegister} />} />
+
         <Route
           path="/allUsers"
           element={
@@ -126,6 +131,7 @@ const App = () => {
           }
         />
         <Route path="api/chat" element={<Chat targetUser={targetUser} changeTargetUser={changeTargetUser} />} />
+
       </Routes>
     </>
   )
