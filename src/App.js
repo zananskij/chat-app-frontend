@@ -5,10 +5,13 @@ import Login from './components/Login'
 import Register from './components/Register'
 // import Homepage from './components/Homepage'
 import MainPage from './components/MainPage'
+import Chat from './components/Chat'
 
 const App = () => {
   const [user, setUser] = useState({ id: null, username: '', password: '' })
   const [allBuddies, setAllBuddies] = useState([])
+  const [targetUser, setTargetUser] = useState({})
+
   const getUser = () => {
     axios
       .get('http://localhost:8000/api/')
@@ -48,6 +51,9 @@ const App = () => {
     .then(res => getAllBuddies())
   }
   
+  const changeTargetUser = (id) => {
+    setTargetUser({id: id})
+  }
 
   useEffect(
     () => {
@@ -66,7 +72,8 @@ const App = () => {
         <Route path="/" element={<Login handleLogin={handleLogin} />} />
         <Route path="api/register" element={<Register handleRegister={handleRegister} />} />
         {/* <Route path="/homepage" element={<Homepage handleHomepage={handleHomepage} />} /> */}
-        <Route path='api/main' element={<MainPage handleAddFriend={handleAddFriend} getAllBuddies={getAllBuddies} allBuddies={allBuddies} handleDelete={handleDelete}/>} />
+        <Route path='api/main' element={<MainPage handleAddFriend={handleAddFriend} getAllBuddies={getAllBuddies} allBuddies={allBuddies} handleDelete={handleDelete} changeTargetUser={changeTargetUser} />} />
+        <Route path='api/chat' element={<Chat targetUser={targetUser} changeTargetUser={changeTargetUser} />} />
       </Routes>
     </>
   )

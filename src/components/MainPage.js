@@ -7,7 +7,6 @@ import BuddyList from './BuddyList'
 const MainPage = (props) => {
     const [allUsers, setAllUsers] = useState([])
     
-    let navigate = useNavigate()
 
     // function to get every single object from user table
     const handleGetAllUsers = () => {
@@ -37,7 +36,7 @@ const MainPage = (props) => {
         <div>
             <div>
                 {/* spawns the buddy list */}
-            {props.allBuddies.map(obj => <BuddyList user={obj} handleDelete={props.handleDelete}/>)}
+            {props.allBuddies.map(obj => <BuddyList user={obj} handleDelete={props.handleDelete} changeTargetUser={props.changeTargetUser}/>)}
             </div>
 
             <div>
