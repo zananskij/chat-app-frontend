@@ -9,11 +9,11 @@ import MainPage from './components/MainPage'
 import BuddyList from './components/BuddyList'
 import Chat from './components/Chat'
 
+
 const App = () => {
   const [user, setUser] = useState({ id: null, username: '', password: '' })
   const [error, setError] = useState(null)
   const [allBuddies, setAllBuddies] = useState([])
-  const [targetUser, setTargetUser] = useState({})
 
   const [isSearching, setIsSearching] = useState(false)
   const [filteredUser, setFilteredUser] = useState([])
@@ -63,17 +63,12 @@ const App = () => {
     axios.post('http://localhost:8000/api/delete', { id: i }).then((res) => getAllBuddies())
   }
 
-  const changeTargetUser = (id) => {
-    setTargetUser({ id: id })
-  }
-
   useEffect(
     () => {
       // getUser()
+      
     },
-    // []
-    [user]
-  )
+    [user])
 
   // search function
   const onSearchChange = useCallback(
@@ -97,9 +92,9 @@ const App = () => {
   return (
     <>
       <div>
-        <nav className="nav bar navbar-expand w-100 d-flex p-3;">
+        {/* <nav className="nav bar navbar-expand w-100 d-flex p-3;">
           <Search onSearchChange={onSearchChange} />
-        </nav>
+        </nav> */}
         <div className="row user-displayed">
           {/* {userToDisplay.map((username) => {
             return (
@@ -115,22 +110,32 @@ const App = () => {
       <h2>Initial temporary login page </h2>
 
       <Routes>
-        <Route path="/" element={<Login handleLogin={handleLogin} />} />
+        {/* <Route path="/" element={<Login handleLogin={handleLogin} />} /> */}
         <Route path="api/register" element={<Register handleRegister={handleRegister} />} />
 
         <Route
-          path="/allUsers"
+          path="api/main"
           element={
             <MainPage
               handleAddFriend={handleAddFriend}
               getAllBuddies={getAllBuddies}
               allBuddies={allBuddies}
               handleDelete={handleDelete}
-              changeTargetUser={changeTargetUser}
             />
           }
+
+
+        <Route path='api/chat/:targetid' element={
+          <Chat 
+            allBuddies={allBuddies}
+            handleDelete={handleDelete}
+            getAllBuddies={getAllBuddies}
+            user={user}
+            />
+          } 
         />
-        <Route path="api/chat" element={<Chat targetUser={targetUser} changeTargetUser={changeTargetUser} />} />
+        
+
 
       </Routes>
     </>
