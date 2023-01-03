@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import axios from 'axios'
-import { Route, Routes, Link } from 'react-router-dom'
+import { Route, Routes, Link, useNavigate } from 'react-router-dom'
 import Login from './components/Login'
 import Register from './components/Register'
 import Search from './components/Search'
@@ -60,9 +60,8 @@ const App = () => {
     axios.post('http://localhost:8000/api/delete', { id: i }).then((res) => getAllBuddies())
   }
 
-  
   const changeTargetUser = (id) => {
-    setTargetUser({id: id})
+    setTargetUser({ id: id })
   }
 
   useEffect(
@@ -89,7 +88,7 @@ const App = () => {
     },
     [user]
   )
-  const userToDisplay = isSearching ? filteredUser : user
+  // const userToDisplay = isSearching ? filteredUser : user
 
   return (
     <>
@@ -115,7 +114,7 @@ const App = () => {
         <Route path="/" element={<Login handleLogin={handleLogin} />} />
         <Route path="api/register" element={<Register handleRegister={handleRegister} />} />
         <Route
-          path="api/main"
+          path="/allUsers"
           element={
             <MainPage
               handleAddFriend={handleAddFriend}
@@ -126,7 +125,7 @@ const App = () => {
             />
           }
         />
-        <Route path='api/chat' element={<Chat targetUser={targetUser} changeTargetUser={changeTargetUser} />} />
+        <Route path="api/chat" element={<Chat targetUser={targetUser} changeTargetUser={changeTargetUser} />} />
       </Routes>
     </>
   )

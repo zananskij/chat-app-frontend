@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import axios from 'axios'
-import { Link, useNavigate } from 'react-router-dom'
+import { Route, Routes, Link, useNavigate } from 'react-router-dom'
 
 const Login = (props) => {
   const [user, setUser] = useState({ id: null, username: '', password: '' })
   const [error, setError] = useState(null)
+
+  const navigate = useNavigate()
 
   const handleChange = (event) => {
     setUser({ ...user, [event.target.name]: event.target.value })
@@ -16,7 +18,7 @@ const Login = (props) => {
       const response = await axios.post('http://localhost:8000/api/login', user)
       if (response.data.hasOwnProperty('id')) {
         console.log(`Welcome, ${response.data.username}!`)
-        return <Route render=
+        navigate('/allUsers')
       } else {
         setError(response.data)
       }
