@@ -3,26 +3,22 @@ import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
 
 const Register = (props) => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [user, setUser] = useState({ id: null, username: '', password: '' })
   const [error, setError] = useState(null)
 
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value)
-  }
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value)
+  const handleChange = (event) => {
+    setUser({ ...user, [event.target.name]: event.target.value })
   }
 
   const handleRegister = async (event) => {
     event.preventDefault()
     try {
-      const response = await axios.post('http://localhost:8000/api/register', {
-        username: username,
-        password: password,
-      })
-      console.log(response.data)
+      const response = await axios.post('http://localhost:8000/api/register', user)
+      if (response.data.hasOwnProperty('id')) {
+        console.log(`Welcome, ${response.data.username}!`)
+      } else {
+        setError(response.data)
+      }
     } catch (error) {
       setError(error.message)
     }
@@ -35,11 +31,25 @@ const Register = (props) => {
           <h3>Register</h3>
           <div className="register-form">
             <form onSubmit={handleRegister}>
-              <input type="text" value={username} placeholder="Username" required onChange={handleUsernameChange} />
+              <input
+                type="text"
+                name="username"
+                value={user.username}
+                placeholder="Username"
+                required
+                onChange={handleChange}
+              />
               <box-icon name="user" color="white"></box-icon>
               <br />
               <br />
-              <input type="password" value={password} placeholder="Password" required onChange={handlePasswordChange} />
+              <input
+                type="password"
+                name="password"
+                value={user.password}
+                placeholder="Password"
+                required
+                onChange={handleChange}
+              />
               <box-icon name="lock-alt" color="white"></box-icon>
               <br />
               <div className="options-container">
