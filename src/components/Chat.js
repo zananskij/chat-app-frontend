@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 import { useParams} from 'react-router-dom'
 import axios from 'axios'
 
-
 const Chat = (props) => {
     let { targetid } = useParams()
     const [msg, setMsg] = useState([])
@@ -28,7 +27,6 @@ const Chat = (props) => {
         getMessages()
     }, [targetid])
 
-
     const msgArray = msg.map(obj => {
         if(obj.sender === Number(targetid)){
             return <li className='align-self-start'>{obj.message}</li>
@@ -36,7 +34,7 @@ const Chat = (props) => {
             return <li className='align-self-end'>{obj.message}</li>
         }
     })
-    
+
     return (
         <main>
             <div>
@@ -48,19 +46,16 @@ const Chat = (props) => {
                 <div className='d-flex flex-column'>
                     {msgArray}
                 </div>
-                
-                
+
                 <form action="">
                     <input type="text" />
                     <input type="submit" value='Enter' />
                 </form>
-                    
-                
+
             </div>
 
         </main>
     )
 }
-
 
 export default Chat

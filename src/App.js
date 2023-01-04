@@ -7,7 +7,7 @@ import Register from './components/Register'
 import Search from './components/Search'
 import MainPage from './components/MainPage'
 import BuddyList from './components/BuddyList'
-import Chat from './components/Chat'
+// import Chat from './components/Chat'
 
 const App = () => {
   const [user, setUser] = useState({ id: null, username: '', password: '' })
@@ -103,7 +103,7 @@ const App = () => {
       <h2>Initial temporary login page </h2>
 
       <Routes>
-        {/* <Route path="/" element={<Login handleLogin={handleLogin} />} /> */}
+        <Route path="/" element={<Login handleLogin={handleLogin} />} />
         <Route path="api/register" element={<Register handleRegister={handleRegister} />} />
 
         <Route
@@ -118,12 +118,12 @@ const App = () => {
           }
         />
 
-        <Route
+        {/* <Route
           path="api/chat/:targetid"
           element={
             <Chat allBuddies={allBuddies} handleDelete={handleDelete} getAllBuddies={getAllBuddies} user={user} />
           }
-        />
+        /> */}
       </Routes>
     </>
   )

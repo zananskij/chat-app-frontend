@@ -3,28 +3,23 @@ import axios from 'axios'
 import { Route, Routes, Link, useNavigate } from 'react-router-dom'
 
 const Login = (props) => {
-
   const [user, setUser] = useState({ id: null, username: '', password: '' })
+
+  const navigate = useNavigate()
 
   const [error, setError] = useState(null)
 
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value)
-  }
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value)
+  const handleChange = (event) => {
+    setUser({ ...user, [event.target.name]: event.target.value })
   }
 
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
-
       const response = await axios.post('http://localhost:8000/api/login', user)
       if (response.data.hasOwnProperty('id')) {
         console.log(`Welcome, ${response.data.username}!`)
-        navigate('/allUsers')
-
+        navigate('/api/main')
       } else {
         setError(response.data)
       }
@@ -39,7 +34,6 @@ const Login = (props) => {
         <h3>Login</h3>
         <div className="login-form">
           <form onSubmit={handleLogin}>
-
             <input
               type="text"
               name="username"
@@ -70,7 +64,6 @@ const Login = (props) => {
                 Don't have an account? <Link to="api/register">Sign up!</Link>
               </span>
             </div>
-
           </form>
           {error && <p>{error}</p>}
         </div>
