@@ -15,11 +15,13 @@ const Chat = (props) => {
       }
 
     const getMessages = () => {
+        // hard coded user1
         axios.post('http://localhost:8000/api/allmessages', {my_id: 1, other_id: Number(targetid)})
         .then(res => setMsg(res.data))
     }
 
     const addMessage = () => {
+        // hard coded user1
         axios.post('http://localhost:8000/api/sendmessage', {user1: 1, user2: Number(targetid), message: singleMsg.message})
         .then(res => {
             getMessages()
