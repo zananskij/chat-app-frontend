@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Route, Routes, Link, useNavigate } from 'react-router-dom'
 import Login from './components/Login'
 import Register from './components/Register'
+
 import Search from './components/Search'
 import MainPage from './components/MainPage'
 import BuddyList from './components/BuddyList'
@@ -59,13 +60,9 @@ const App = () => {
     axios.post('http://localhost:8000/api/delete', { id: i }).then((res) => getAllBuddies())
   }
 
-  useEffect(
-    () => {
-      // getUser()
-    },
-    // []
-    [user]
-  )
+  useEffect(() => {
+    // getUser()
+  }, [user])
 
   // search function
   const onSearchChange = useCallback(
@@ -88,9 +85,9 @@ const App = () => {
   return (
     <>
       <div>
-        <nav className="nav bar navbar-expand w-100 d-flex p-3;">
+        {/* <nav className="nav bar navbar-expand w-100 d-flex p-3;">
           <Search onSearchChange={onSearchChange} />
-        </nav>
+        </nav> */}
         <div className="row user-displayed">
           {/* {userToDisplay.map((username) => {
             return (
@@ -106,10 +103,11 @@ const App = () => {
       <h2>Initial temporary login page </h2>
 
       <Routes>
-        <Route path="/" element={<Login handleLogin={handleLogin} />} />
+        {/* <Route path="/" element={<Login handleLogin={handleLogin} />} /> */}
         <Route path="api/register" element={<Register handleRegister={handleRegister} />} />
+
         <Route
-          path="/allUsers"
+          path="api/main"
           element={
             <MainPage
               handleAddFriend={handleAddFriend}
@@ -119,9 +117,12 @@ const App = () => {
             />
           }
         />
+
         <Route
-          path="api/chat/:id"
-          element={<Chat allBuddies={allBuddies} handleDelete={handleDelete} getAllBuddies={getAllBuddies} />}
+          path="api/chat/:targetid"
+          element={
+            <Chat allBuddies={allBuddies} handleDelete={handleDelete} getAllBuddies={getAllBuddies} user={user} />
+          }
         />
       </Routes>
     </>
