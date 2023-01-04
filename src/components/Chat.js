@@ -10,6 +10,7 @@ const Chat = (props) => {
     const [singleMsg, setSingleMsg] = useState({message: ''})
 
     const handleChange = (event) => {
+        console.log(singleMsg)
         setSingleMsg({ ...singleMsg, [event.target.name]: event.target.value })
       }
 
@@ -19,8 +20,8 @@ const Chat = (props) => {
     }
 
     const addMessage = () => {
-        axios.post('http://localhost:8000/api/allmessages', {my_id: 1, other_id: Number(targetid), message: })
-        .then(res => setMsg(res.data))
+        axios.post('http://localhost:8000/api/allmessages', {my_id: 1, other_id: Number(targetid), message: singleMsg.message})
+        .then(res => getMessages())
     }
 
     useEffect(() => {
@@ -50,8 +51,11 @@ const Chat = (props) => {
                 </div>
                 
                 
-                <form action="">
-                    <input type="text" />
+                <form onSubmit={(event) => {
+                    event.preventDefault()
+                    addMessage()
+                }}>
+                    <input type="text" name='message' onChange={handleChange}/>
                     <input type="submit" value='Enter' />
                 </form>
                     
