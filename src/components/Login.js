@@ -4,9 +4,8 @@ import { Route, Routes, Link, useNavigate } from 'react-router-dom'
 
 const Login = (props) => {
   const [user, setUser] = useState({ id: null, username: '', password: '' })
-  const [error, setError] = useState(null)
 
-  const navigate = useNavigate()
+  const [error, setError] = useState(null)
 
   const handleChange = (event) => {
     setUser({ ...user, [event.target.name]: event.target.value })
@@ -52,6 +51,7 @@ const Login = (props) => {
               required
               onChange={handleChange}
             />
+
             <box-icon name="lock-alt" color="white"></box-icon>
             <br />
             <div className="options-container">
