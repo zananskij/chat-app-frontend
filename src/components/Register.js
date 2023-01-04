@@ -12,19 +12,10 @@ const Register = (props) => {
     setUser({ ...user, [event.target.name]: event.target.value })
   }
 
-  const handleRegister = async (event) => {
-    event.preventDefault()
-    try {
-      const response = await axios.post('http://localhost:8000/api/register', user)
-      if (response.data.hasOwnProperty('id')) {
-        console.log(`Welcome, ${response.data.username}!`)
-        navigate('/')
-      } else {
-        setError(response.data)
-      }
-    } catch (error) {
-      setError(error.message)
-    }
+  // function for registration
+  const handleRegister = (event) => {
+    axios.post('http://localhost:8000/api/register', user)
+    navigate('/')
   }
 
   return (

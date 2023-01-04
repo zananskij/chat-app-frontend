@@ -4,28 +4,19 @@ import { Route, Routes, Link, useNavigate } from 'react-router-dom'
 
 const Login = (props) => {
   const [user, setUser] = useState({ id: null, username: '', password: '' })
+  const [error, setError] = useState(null)
 
   const navigate = useNavigate()
-
-  const [error, setError] = useState(null)
 
   const handleChange = (event) => {
     setUser({ ...user, [event.target.name]: event.target.value })
   }
 
-  const handleLogin = async (event) => {
-    event.preventDefault()
-    try {
-      const response = await axios.post('http://localhost:8000/api/login', user)
-      if (response.data.hasOwnProperty('id')) {
-        console.log(`Welcome, ${response.data.username}!`)
-        navigate('/api/main')
-      } else {
-        setError(response.data)
-      }
-    } catch (error) {
-      setError(error.message)
-    }
+  // function for login
+  const handleLogin = (event) => {
+    axios.post('http://localhost:8000/api/login', user)
+    console.log(`Welcome, ${user.username}!`)
+    navigate('/api/main')
   }
 
   return (
