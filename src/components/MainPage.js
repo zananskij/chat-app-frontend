@@ -1,17 +1,61 @@
 import axios from 'axios'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import BuddyList from './BuddyList'
 
 const MainPage = (props) => {
   const [allUsers, setAllUsers] = useState([])
+  const [searchTerm, setSearchTerm] = useState('')
+  const [filteredUsers, setFilteredUsers] = useState([])
 
-  // function to get every single object from user table
+  const handleSearch = (event) => {
+    const searchTerm = event.target.value
+    const filteredUsers = allUsers.filter((user) => user.username.includes(searchTerm))
+    setFilteredUsers(filteredUsers)
+  }
   const handleGetAllUsers = () => {
     axios.get('http://localhost:8000/api/allUsers').then((response) => {
       setAllUsers(response.data)
       console.log(response)
+      const displayFiltered = response.data.filter((user) => user.username.includes(searchTerm))
+      setFilteredUsers(displayFiltered)
     })
+  }
+
+  //   displays list of users or filtered users depending if there is anything in search input
+  const userToDisplay = searchTerm ? filteredUsers : []
+  //   const userToDisplay = searchTerm ? filteredUsers : allUsers
+
+  //   const onSearchChange = useCallback(
+  //     (event) => {
+  //       // what is being input in the search bar
+  //       const searchInput = event.target.value
+  //       //    updates the searchTerm state array with the value of the input
+  //       setSearchTerm(searchInput)
+  //       // sets the input to all lowerCase
+  //       const searchInputLower = searchInput.toLowerCase()
+  //       //   if anything is input it will be set to a result array that will be used to update the filteredUsers array
+  //       if (searchInput.length > 0) {
+  //         const result = allUsers.filter((user) => {
+  //           return user.username.toLowerCase().includes(searchInputLower)
+  //         })
+  //         setFilteredUsers(result)
+  //       } else {
+  //         setFilteredUsers([])
+  //       }
+  //     },
+  //     [allUsers]
+  //   )
+
+  const navigate = useNavigate()
+
+  const [loggedIn, setLoggedIn] = useState('')
+
+  const handleSignout = () => {
+    if (window.confirm('Are you sure you want to sign out?')) {
+      setLoggedIn(false)
+      navigate('/')
+    }
   }
 
   const checkIfBud = (id) => {
@@ -22,40 +66,63 @@ const MainPage = (props) => {
     return false
   }
 
+  //   fetches all users + buddies when MainPage is loaded
   useEffect(() => {
     handleGetAllUsers()
     props.getAllBuddies()
   }, [])
 
   return (
-    // flex column this
-    <div>
-      <div>
-        {/* spawns the buddy list */}
-        {props.allBuddies.map((obj) => (
-          <BuddyList user={obj} handleDelete={props.handleDelete} changeTargetUser={props.changeTargetUser} />
-        ))}
-      </div>
-
-      <div>
-        {/* search bar */}
-        <input type="text" />
-
-        {/* main content / all Users*/}
-        <main>
-          {allUsers.map((user) => {
-            return (
-              <>
-                <li>
-                  <h2>{user.username}</h2>
-
-                  {/* checkIfBud function literally checks if the User we are looking at is inside the BUddy Table. If it is, it will return true making this condition true. */}
-                  {checkIfBud(user.id) ? null : <button onClick={() => props.handleAddFriend(user.id)}>Add</button>}
+    <div className="homepage">
+      <nav className="navbar navbar-light bg-dark">
+        <input
+          type="text"
+          placeholder="Search for Users"
+          // defaultValue={searchTerm}
+          // onChange={onSearchChange}
+          className="form-inline"
+          onKeyUp={handleSearch}
+        />
+        <button onClick={handleSignout} className="signOut btn btn-danger ">
+          Sign Out
+        </button>
+      </nav>
+      <div className="container">
+        <div className="row">
+          <div className="col-sm-6">
+            {props.allBuddies.map((obj) => (
+              <BuddyList user={obj} handleDelete={props.handleDelete} changeTargetUser={props.changeTargetUser} />
+            ))}
+          </div>
+          <div className="col-sm-6">
+            <ul className="list-group">
+              {userToDisplay.map((user) => (
+                <li key={user.id} className="list-group-item">
+                  {user.username}
                 </li>
-              </>
-            )
-          })}
-        </main>
+              ))}
+            </ul>
+
+            <main>
+              {filteredUsers.map((user) => {
+                // {userToDisplay.map((user) => {
+                return (
+                  <>
+                    <li key={user.id}>
+                      <h2>{user.username}</h2>
+
+                      {checkIfBud(user.id) ? null : (
+                        <button onClick={() => props.handleAddFriend(user.id)} className="btn btn-primary">
+                          Add
+                        </button>
+                      )}
+                    </li>
+                  </>
+                )
+              })}
+            </main>
+          </div>
+        </div>
       </div>
     </div>
   )

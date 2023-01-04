@@ -3,32 +3,19 @@ import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
 
 const Register = (props) => {
-
   const [user, setUser] = useState({ id: null, username: '', password: '' })
   const [error, setError] = useState(null)
 
   const navigate = useNavigate()
 
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value)
+  const handleChange = (event) => {
+    setUser({ ...user, [event.target.name]: event.target.value })
   }
 
-  const handleRegister = async (event) => {
-    event.preventDefault()
-    try {
-
-      const response = await axios.post('http://localhost:8000/api/register', user)
-      if (response.data.hasOwnProperty('id')) {
-        console.log(`Welcome, ${response.data.username}!`)
-        navigate('/')
-      } else {
-        setError(response.data)
-      }
-
-    } catch (error) {
-      setError(error.message)
-    }
+  // function for registration
+  const handleRegister = (event) => {
+    axios.post('http://localhost:8000/api/register', user)
+    navigate('/')
   }
 
   return (
@@ -38,7 +25,6 @@ const Register = (props) => {
           <h3>Register</h3>
           <div className="register-form">
             <form onSubmit={handleRegister}>
-
               <input
                 type="text"
                 name="username"

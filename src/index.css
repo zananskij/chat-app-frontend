@@ -4,7 +4,7 @@ body {
     'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: rgb(10, 153, 200);
+  background-color: slategray;
 }
 
 code {
@@ -105,4 +105,11 @@ box-icon {
   cursor: pointer;
   transition: 0.3s;
   margin-top: 10px;
+}
+
+.form-inline {
+  width: 50%;
+}
+.navbar {
+  justify-content: space-evenly;
 }
