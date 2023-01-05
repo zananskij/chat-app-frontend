@@ -87,15 +87,15 @@ const MainPage = (props) => {
           Sign Out
         </button>
       </nav>
-      <div className="container">
+      <div className="container-fluid">
         <div className="row">
-          <div className="col-sm-6">
+          <div className="col-sm-4">
           <h2>My Friends</h2>
             {props.allBuddies.length < 1 ? <h2>Please Add Buddy</h2> : props.allBuddies.map((obj) => (
               <BuddyList user={obj} handleDelete={props.handleDelete} changeTargetUser={props.changeTargetUser} />
             ))}
           </div>
-          <div className="col-sm-6">
+          <div className="col-sm-8">
             <ul className="list-group">
                 <h2>Online Users</h2>
                 <hr />
