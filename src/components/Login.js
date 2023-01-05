@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import axios from 'axios'
-import { Route, Routes, Link, useNavigate } from 'react-router-dom'
+import { Route, Routes, Link, useNavigate, Redirect } from 'react-router-dom'
+import AuthContext from '../context/AuthContext'
 
 const Login = (props) => {
   const [user, setUser] = useState({ username: '', password: '' })
@@ -12,12 +13,15 @@ const Login = (props) => {
     setUser({ ...user, [event.target.name]: event.target.value })
   }
 
+  let { loginUser } = useContext(AuthContext)
+
   return (
     <div className="login-page">
       <div className="login-container">
         <h3>Login</h3>
         <div className="login-form">
-          <form onSubmit={() => props.handleLogin(user)}>
+          {/* <form onSubmit={() => props.handleLogin(user)}> */}
+          <form onSubmit={loginUser}>
             <input
               type="text"
               name="username"

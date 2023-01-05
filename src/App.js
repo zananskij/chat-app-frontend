@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Route, Routes, useNavigate } from 'react-router-dom'
+import { Route, Routes, useNavigate, useHistory } from 'react-router-dom'
 import Login from './components/Login'
 import Register from './components/Register'
 import MainPage from './components/MainPage'
@@ -9,6 +9,8 @@ import Chat from './components/Chat'
 import Buddy from './components/BuddyList'
 import './App.css'
 
+import { AuthProvider } from './context/AuthContext'
+
 const App = () => {
   const [user, setUser] = useState({ id: null, username: '', password: '' })
   const [error, setError] = useState(null)
@@ -16,21 +18,55 @@ const App = () => {
 
   const navigate = useNavigate()
 
-  // function for registration
+  // OLD register
+  // const handleRegister = (data) => {
+  //   axios.post('http://localhost:8000/api/register', data).then((res) => {
+  //     setUser(res.data)
+  //   })
+  //   navigate('/api/main')
+  // }
+
+  // auth register
   const handleRegister = (data) => {
-    axios.post('http://localhost:8000/api/register', data).then(res => {setUser(res.data)
-    }
-    )
+    axios
+      .post('http://localhost:8000/api/register', data, {
+        headers: {
+          Authorization: `JWT ${localStorage.getItem('id_token')}`,
+        },
+      })
+      .then((res) => {
+        setUser(res.data)
+      })
     navigate('/api/main')
   }
-  // function for login
+
+  // OLD login
+  // const handleLogin = (data) => {
+  //   axios.post('http://localhost:8000/api/login', data).then((res) => {
+  //     setUser(res.data)
+  //   })
+  //   navigate('/api/main')
+  // }
+
+  // auth login
+  // updates Authorization header to the value of YOUR JWT token for the POST request made to the backend
   const handleLogin = (data) => {
-    axios.post('http://localhost:8000/api/login', data).then(res => {
-      setUser(res.data)
-    })
+    axios
+      .post('http://localhost:8000/api/login', data, {
+        headers: {
+          Authorization: `JWT ${localStorage.getItem('id_token')}`,
+        },
+      })
+      .then((res) => {
+        setUser(res.data)
+      })
     navigate('/api/main')
-    
   }
+
+  // const authenticated = false
+  // return (
+  //   <Route>{!authenticated ? <Redirect to="/" /> : <Redirect to="/api/main"} </Route>
+  // )
 
   // function for friendslist
   const getAllBuddies = () => {
