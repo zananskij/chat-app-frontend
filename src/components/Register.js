@@ -13,10 +13,6 @@ const Register = (props) => {
   }
 
   // function for registration
-  const handleRegister = (event) => {
-    axios.post('http://localhost:8000/api/register', user)
-    navigate('/')
-  }
 
   return (
     <>
@@ -24,7 +20,7 @@ const Register = (props) => {
         <div className="register-container">
           <h3>Register</h3>
           <div className="register-form">
-            <form onSubmit={handleRegister}>
+            <form onSubmit={() => props.handleRegister(user)}>
               <input
                 type="text"
                 name="username"

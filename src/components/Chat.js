@@ -2,6 +2,7 @@ import BuddyList from './BuddyList'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
+import Message from './Message'
 
 const Chat = (props) => {
   let { targetid } = useParams()
@@ -15,13 +16,13 @@ const Chat = (props) => {
 
   const getMessages = () => {
     axios
-      .post('http://localhost:8000/api/allmessages', { my_id: 1, other_id: Number(targetid) })
+      .post('http://localhost:8000/api/allmessages', { my_id: props.user.id, other_id: Number(targetid) })
       .then((res) => setMsg(res.data))
   }
 
   const addMessage = () => {
     axios
-      .post('http://localhost:8000/api/sendmessage', { user1: 1, user2: Number(targetid), message: singleMsg.message })
+      .post('http://localhost:8000/api/sendmessage', { user1: props.user.id, user2: Number(targetid), message: singleMsg.message })
       .then((res) => {
         getMessages()
         setSingleMsg({ message: '' })
@@ -33,36 +34,33 @@ const Chat = (props) => {
     getMessages()
   }, [targetid])
 
-  const msgArray = msg.map((obj) => {
-    if (obj.sender === Number(targetid)) {
-      return <li className="align-self-start">{obj.message}</li>
-    } else {
-      return <li className="align-self-end">{obj.message}</li>
-    }
-  })
+  const msgArray = msg.map((obj) => <Message obj={obj}/>)
 
   return (
-    <main>
-      <div>
-        {/* spawns the buddy list */}
-        {props.allBuddies.map((obj) => (
-          <BuddyList user={obj} handleDelete={props.handleDelete} changeTargetUser={props.changeTargetUser} />
-        ))}
-      </div>
+    <main className='container-fluid mt-4'>
+        <div className='row'>
+            <div className='col-2'>
+                {/* spawns the buddy list */}
+                {props.allBuddies.map((obj) => (
+                <BuddyList user={obj} handleDelete={props.handleDelete} changeTargetUser={props.changeTargetUser} />
+                ))}
+             </div>
 
-      <div>
-        <div className="d-flex flex-column">{msgArray}</div>
+            <div className='col-10'>
+                <div className="d-flex flex-column w-100">{msgArray}</div>
 
-        <form
-          onSubmit={(event) => {
-            event.preventDefault()
-            addMessage()
-          }}
-        >
-          <input type="text" name="message" onChange={handleChange} value={singleMsg.message} />
-          <input type="submit" value="Enter" />
-        </form>
-      </div>
+                <form
+                onSubmit={(event) => {
+                    event.preventDefault()
+                    addMessage()
+                }}
+                >
+                <input type="text" name="message" onChange={handleChange} value={singleMsg.message} />
+                <input type="submit" value="Enter" />
+                </form>
+            </div>
+        </div>
+      
     </main>
   )
 }

@@ -90,16 +90,20 @@ const MainPage = (props) => {
       <div className="container">
         <div className="row">
           <div className="col-sm-6">
-            {props.allBuddies.map((obj) => (
+          <h2>My Friends</h2>
+            {props.allBuddies.length < 1 ? <h2>Please Add Buddy</h2> : props.allBuddies.map((obj) => (
               <BuddyList user={obj} handleDelete={props.handleDelete} changeTargetUser={props.changeTargetUser} />
             ))}
           </div>
           <div className="col-sm-6">
             <ul className="list-group">
+                <h2>Online Users</h2>
+                <hr />
               {userToDisplay.map((user) => (
                 <li key={user.id} className="list-group-item">
                   {user.username}
                 </li>
+                
               ))}
             </ul>
 
@@ -108,15 +112,19 @@ const MainPage = (props) => {
                 // {userToDisplay.map((user) => {
                 return (
                   <>
-                    <li key={user.id}>
-                      <h2>{user.username}</h2>
+                    <div key={user.id} className="d-flex mx-2">
+                      <h2 >{user.username}</h2>
 
                       {checkIfBud(user.id) ? null : (
-                        <button onClick={() => props.handleAddFriend(user.id)} className="btn btn-primary">
+                        <button onClick={() => {
+                            console.log(user.id)
+                            props.handleAddFriend(user.id)
+                        }} className="btn btn-primary mx-3">
                           Add
                         </button>
                       )}
-                    </li>
+                    </div>
+                    <hr />
                   </>
                 )
               })}

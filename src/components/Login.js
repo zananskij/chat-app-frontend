@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Route, Routes, Link, useNavigate } from 'react-router-dom'
 
 const Login = (props) => {
-  const [user, setUser] = useState({ id: null, username: '', password: '' })
+  const [user, setUser] = useState({ username: '', password: '' })
   const [error, setError] = useState(null)
 
   const navigate = useNavigate()
@@ -12,19 +12,12 @@ const Login = (props) => {
     setUser({ ...user, [event.target.name]: event.target.value })
   }
 
-  // function for login
-  const handleLogin = (event) => {
-    axios.post('http://localhost:8000/api/login', user)
-    console.log(`Welcome, ${user.username}!`)
-    navigate('/api/main')
-  }
-
   return (
     <div className="login-page">
       <div className="login-container">
         <h3>Login</h3>
         <div className="login-form">
-          <form onSubmit={handleLogin}>
+          <form onSubmit={() => props.handleLogin(user)}>
             <input
               type="text"
               name="username"
