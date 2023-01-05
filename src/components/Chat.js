@@ -49,14 +49,16 @@ const Chat = (props) => {
             <div className='col-10'>
                 <div className="d-flex flex-column w-100">{msgArray}</div>
 
-                <form
+                <form className='d-flex justify-content-center w-100 mx-auto'
                 onSubmit={(event) => {
                     event.preventDefault()
                     addMessage()
                 }}
                 >
-                <input type="text" name="message" onChange={handleChange} value={singleMsg.message} />
-                <input type="submit" value="Enter" />
+                <div className='w-100'>
+                    <input className='w-100' type="text" name="message" onChange={handleChange} value={singleMsg.message} />
+                    <input className='w-100' type="submit" value="Enter" />
+                </div>
                 </form>
             </div>
         </div>

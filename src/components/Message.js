@@ -2,7 +2,7 @@
 
 const Message = (props) => {
   return (
-    <div className="card w-100">
+    <div className="card w-100 rounded mb-1">
         <div className="card-header">
             id: {props.obj.sender}
         </div>
