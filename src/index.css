@@ -4,7 +4,7 @@ body {
     'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: rgb(10, 153, 200);
+  background-color: slategray;
 }
 
 code {
@@ -85,4 +85,31 @@ box-icon {
 }
 .submit:hover {
   box-shadow: 1px 5px 7px 1px rgba(0, 0, 0, 0.2);
+}
+
+.options-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.register-btn,
+.login-btn {
+  border: none;
+  border-radius: 30px;
+  font-size: 15px;
+  height: 45px;
+  outline: none;
+  width: 100%;
+  color: black;
+  background: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: 0.3s;
+  margin-top: 10px;
+}
+
+.form-inline {
+  width: 50%;
+}
+.navbar {
+  justify-content: space-evenly;
 }
