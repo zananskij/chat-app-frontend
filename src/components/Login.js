@@ -3,27 +3,13 @@ import axios from 'axios'
 import { Route, Routes, Link, useNavigate } from 'react-router-dom'
 
 const Login = (props) => {
-  const [user, setUser] = useState({ id: null, username: '', password: '' })
-
+  const [user, setUser] = useState({ username: '', password: '' })
   const [error, setError] = useState(null)
+
+  const navigate = useNavigate()
 
   const handleChange = (event) => {
     setUser({ ...user, [event.target.name]: event.target.value })
-  }
-
-  const handleLogin = async (event) => {
-    event.preventDefault()
-    try {
-      const response = await axios.post('http://localhost:8000/api/login', user)
-      if (response.data.hasOwnProperty('id')) {
-        console.log(`Welcome, ${response.data.username}!`)
-        navigate('/allUsers')
-      } else {
-        setError(response.data)
-      }
-    } catch (error) {
-      setError(error.message)
-    }
   }
 
   return (
@@ -31,7 +17,7 @@ const Login = (props) => {
       <div className="login-container">
         <h3>Login</h3>
         <div className="login-form">
-          <form onSubmit={handleLogin}>
+          <form onSubmit={() => props.handleLogin(user)}>
             <input
               type="text"
               name="username"
