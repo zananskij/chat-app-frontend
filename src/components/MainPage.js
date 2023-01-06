@@ -14,7 +14,7 @@ const MainPage = (props) => {
     setFilteredUsers(filteredUsers)
   }
   const handleGetAllUsers = () => {
-    axios.get('http://localhost:8000/api/allUsers').then((response) => {
+    axios.get('https://chat-app-backend.herokuapp.com/api/allUsers').then((response) => {
       setAllUsers(response.data)
       console.log(response)
       const displayFiltered = response.data.filter((user) => user.username.includes(searchTerm))
@@ -90,20 +90,23 @@ const MainPage = (props) => {
       <div className="container">
         <div className="row">
           <div className="col-sm-6">
-          <h2>My Friends</h2>
-            {props.allBuddies.length < 1 ? <h2>Please Add Buddy</h2> : props.allBuddies.map((obj) => (
-              <BuddyList user={obj} handleDelete={props.handleDelete} changeTargetUser={props.changeTargetUser} />
-            ))}
+            <h2>My Friends</h2>
+            {props.allBuddies.length < 1 ? (
+              <h2>Please Add Buddy</h2>
+            ) : (
+              props.allBuddies.map((obj) => (
+                <BuddyList user={obj} handleDelete={props.handleDelete} changeTargetUser={props.changeTargetUser} />
+              ))
+            )}
           </div>
           <div className="col-sm-6">
             <ul className="list-group">
-                <h2>Online Users</h2>
-                <hr />
+              <h2>Online Users</h2>
+              <hr />
               {userToDisplay.map((user) => (
                 <li key={user.id} className="list-group-item">
                   {user.username}
                 </li>
-                
               ))}
             </ul>
 
@@ -113,13 +116,16 @@ const MainPage = (props) => {
                 return (
                   <>
                     <div key={user.id} className="d-flex mx-2">
-                      <h2 >{user.username}</h2>
+                      <h2>{user.username}</h2>
 
                       {checkIfBud(user.id) ? null : (
-                        <button onClick={() => {
+                        <button
+                          onClick={() => {
                             console.log(user.id)
                             props.handleAddFriend(user.id)
-                        }} className="btn btn-primary mx-3">
+                          }}
+                          className="btn btn-primary mx-3"
+                        >
                           Add
                         </button>
                       )}

@@ -18,34 +18,39 @@ const App = () => {
 
   // function for registration
   const handleRegister = (data) => {
-    axios.post('http://localhost:8000/api/register', data).then(res => {setUser(res.data)
-    }
-    )
+    axios.post('https://chat-app-backend.herokuapp.com/api/register', data).then((res) => {
+      setUser(res.data)
+    })
     navigate('/api/main')
   }
   // function for login
   const handleLogin = (data) => {
-    axios.post('http://localhost:8000/api/login', data).then(res => {
+    axios.post('https://chat-app-backend.herokuapp.com/api/login', data).then((res) => {
       setUser(res.data)
     })
     navigate('/api/main')
-    
   }
 
   // function for friendslist
   const getAllBuddies = () => {
-    axios.post('http://localhost:8000/api/allbuddies', { id: user.id }).then((response) => setAllBuddies(response.data))
+    axios
+      .post('https://chat-app-backend.herokuapp.com/api/allbuddies', { id: user.id })
+      .then((response) => setAllBuddies(response.data))
   }
 
   // user1 is hardcoded
   // adds a user to Buddy table
   const handleAddFriend = (id) => {
-    axios.post('http://localhost:8000/api/addBuddy', { user1: user.id, user2: id }).then((response) => getAllBuddies())
+    axios
+      .post('https://chat-app-backend.herokuapp.com/api/addBuddy', { user1: user.id, user2: id })
+      .then((response) => getAllBuddies())
   }
 
   // delete a single user from Buddy Table.
   const handleDelete = (i) => {
-    axios.post('http://localhost:8000/api/delete', { my_id: user.id, id: i }).then((res) => getAllBuddies())
+    axios
+      .post('https://chat-app-backend.herokuapp.com/api/delete', { my_id: user.id, id: i })
+      .then((res) => getAllBuddies())
   }
 
   useEffect(() => {
